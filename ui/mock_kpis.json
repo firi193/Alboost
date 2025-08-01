@@ -1,0 +1,16 @@
+{
+  "summary": {
+    "impressions": 120000,
+    "click_through_rate": 2.5,
+    "cost_per_acquisition": 3.75
+  },
+  "daily": [
+    { "date": "2025-07-01", "impressions": 16000, "ctr": 2.1, "cpa": 4.2 },
+    { "date": "2025-07-02", "impressions": 15500, "ctr": 2.3, "cpa": 3.9 },
+    { "date": "2025-07-03", "impressions": 17000, "ctr": 2.4, "cpa": 3.7 },
+    { "date": "2025-07-04", "impressions": 15000, "ctr": 2.2, "cpa": 3.5 },
+    { "date": "2025-07-05", "impressions": 18000, "ctr": 2.7, "cpa": 3.4 },
+    { "date": "2025-07-06", "impressions": 16000, "ctr": 2.6, "cpa": 3.6 },
+    { "date": "2025-07-07", "impressions": 19000, "ctr": 2.9, "cpa": 3.2 }
+  ]
+}

@@ -1,0 +1,41 @@
+|-- .env
+|-- .gitignore
+|-- core
+|   |-- agent_base.py
+|   |-- feedback_agent.py
+|   |-- planner_agent.py
+|   |-- researcher_agent.py
+|   |-- strategist_agent.py
+|   |-- utils
+|   |   |-- helpers.py
+|   |   |-- prompts.py
+|   |-- writer_agent.py
+|-- data
+|-- deployment
+|   |-- lambda
+|   |   |-- requirements.txt
+|   |   |-- template.yaml
+|   |-- vultr
+|   |   |-- Dockerfile
+|   |   |-- setup_inference.sh
+|-- docs
+|-- print_structure.py
+|-- requirements.txt
+|-- setup.py
+|-- structure.txt
+|-- ui
+|   |-- __init__.py
+|   |-- components
+|   |   |-- __init__.py
+|   |   |-- dashboard.py
+|   |   |-- file_uploader.py
+|   |-- streamlit_app.py
+|-- workflows
+|   |-- agent_orchestration.py
+|   |-- server
+|   |   |-- main.py
+|   |   |-- routes
+|   |   |   |-- __init__.py
+|   |   |   |-- campaign_trigger.py
+|   |   |   |-- feedback_listener.py
+|   |-- vultr_inference_api.py

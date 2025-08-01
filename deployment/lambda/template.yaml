@@ -1,0 +1,122 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Description: Marketing AI Agent System - Lambda Functions
+
+Globals:
+  Function:
+    Timeout: 30
+    MemorySize: 512
+    Runtime: python3.10
+    Environment:
+      Variables:
+        LOG_LEVEL: INFO
+
+Resources:
+  CampaignTriggerFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: workflows/lambda_handlers/
+      Handler: campaign_trigger.lambda_handler
+      FunctionName: campaign-trigger
+      Description: "Triggers marketing campaigns"
+      Events:
+        CampaignApi:
+          Type: Api
+          Properties:
+            Path: /campaign
+            Method: post
+            RestApiId: !Ref ApiGateway
+
+  FeedbackListenerFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: workflows/lambda_handlers/
+      Handler: feedback_listener.lambda_handler
+      FunctionName: feedback-listener
+      Description: "Handles user feedback"
+      Events:
+        FeedbackApi:
+          Type: Api
+          Properties:
+            Path: /feedback
+            Method: post
+            RestApiId: !Ref ApiGateway
+
+  ApiGateway:
+    Type: AWS::Serverless::Api
+    Properties:
+      StageName: prod
+      DefinitionBody:
+        swagger: 2.0
+        info:
+          title: Marketing AI Agent API
+          version: 1.0.0
+        schemes:
+          - https
+        paths:
+          /campaign:
+            post:
+              x-amazon-apigateway-integration:
+                type: aws_proxy
+                httpMethod: POST
+                uri: !Sub arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${CampaignTriggerFunction.Arn}/invocations
+          /feedback:
+            post:
+              x-amazon-apigateway-integration:
+                type: aws_proxy
+                httpMethod: POST
+                uri: !Sub arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${FeedbackListenerFunction.Arn}/invocations
+
+  CampaignTriggerRole:
+    Type: AWS::IAM::Role
+    Properties:
+      RoleName: CampaignTriggerRole
+      AssumeRolePolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service: lambda.amazonaws.com
+            Action: sts:AssumeRole
+      Policies:
+        - PolicyName: CampaignTriggerPolicy
+          PolicyDocument:
+            Version: '2012-10-17'
+            Statement:
+              - Effect: Allow
+                Action:
+                  - logs:CreateLogGroup
+                  - logs:CreateLogStream
+                  - logs:PutLogEvents
+                Resource: arn:aws:logs:*:*:*
+
+  FeedbackListenerRole:
+    Type: AWS::IAM::Role
+    Properties:
+      RoleName: FeedbackListenerRole
+      AssumeRolePolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service: lambda.amazonaws.com
+            Action: sts:AssumeRole
+      Policies:
+        - PolicyName: FeedbackListenerPolicy
+          PolicyDocument:
+            Version: '2012-10-17'
+            Statement:
+              - Effect: Allow
+                Action:
+                  - logs:CreateLogGroup
+                  - logs:CreateLogStream
+                  - logs:PutLogEvents
+                Resource: arn:aws:logs:*:*:*
+
+Outputs:
+  CampaignApiUrl:
+    Description: URL of the Campaign API
+    Value: !Sub 'https://${ApiGateway}.execute-api.${AWS::Region}.amazonaws.com/prod/campaign'
+  FeedbackApiUrl:
+    Description: URL of the Feedback API
+    Value: !Sub 'https://${ApiGateway}.execute-api.${AWS::Region}.amazonaws.com/prod/feedback'
