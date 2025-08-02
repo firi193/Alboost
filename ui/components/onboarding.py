@@ -5,7 +5,7 @@ def render_onboarding_modal():
     Render onboarding modal when triggered.
     """
     if st.session_state.get("show_onboarding", False):
-        st.markdown("## 👋 Welcome to AI Campaign Assistant!")
+        st.markdown("## 👋 Welcome to Alboost - Your AI Campaign Assistant!")
         st.info("Let's set up your account to get started.")
         
         # Onboarding form
