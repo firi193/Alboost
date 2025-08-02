@@ -47,7 +47,7 @@ def render_onboarding_card():
                 box-shadow: 0 2px 8px rgba(0,0,0,0.1); 
                 border: 1px solid #E9ECEF; 
                 margin-bottom: 16px;">
-        <h2 style="margin-bottom: 1rem; color: #1A1A40;">🚀 Welcome to AI Campaign Assistant</h2>
+        <h2 style="margin-bottom: 1rem; color: #1A1A40;">🚀 Welcome to Alboost - AI Campaign Assistant</h2>
         <p style="color: #6C757D; margin-bottom: 2rem;">
             Complete onboarding to unlock AI-powered campaign insights and strategy generation.
         </p>
